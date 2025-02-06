@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 
 const RadioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -7,7 +7,8 @@ const RadioPlayer = () => {
   const [selectedStation, setSelectedStation] = useState(null);
   const audioRef = useRef(null);
 
-  const stations = [
+  // Use useMemo to memoize the stations array
+  const stations = useMemo(() => [
     {
       name: 'Antyradio',
       url: 'http://redir.atmcdn.pl/sc/o2/Eurozet/live/antyradio.livx',
@@ -20,7 +21,7 @@ const RadioPlayer = () => {
       name: 'RMF FM',
       url: 'https://rs102-krk.rmfstream.pl/rmf_fm',
     },
-  ];
+  ], []);
 
   useEffect(() => {
     audioRef.current = new Audio(stations[0].url);
@@ -35,7 +36,7 @@ const RadioPlayer = () => {
       clearInterval(timer);
       audioRef.current.pause();
     };
-  }, []);
+  }, [stations]);
 
   const togglePlayPause = () => {
     if (isPlaying) {
