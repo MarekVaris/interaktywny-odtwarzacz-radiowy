@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 const RadioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [volume, setVolume] = useState(1);  // Dodaj stan dla głośności
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -25,6 +26,13 @@ const RadioPlayer = () => {
     setIsPlaying(!isPlaying);
   };
 
+  // Funkcja do obsługi zmiany głośności
+  const handleVolumeChange = (e) => {
+    const volumeValue = e.target.value;
+    setVolume(volumeValue);
+    audioRef.current.volume = volumeValue; // Ustawiamy głośność na audioRef
+  };
+
   return (
     <div className="radio-player">
       <h2>Odtwarzacz Antyradio</h2>
@@ -34,6 +42,20 @@ const RadioPlayer = () => {
       <div className="date-time">
         <p>Data: {currentDateTime.toLocaleDateString()}</p>
         <p>Godzina: {currentDateTime.toLocaleTimeString()}</p>
+      </div>
+      {/* Dodaj suwak do regulacji głośności */}
+      <div className="volume-control">
+        <label htmlFor="volume">Głośność:</label>
+        <input
+          type="range"
+          id="volume"
+          min="0"
+          max="1"
+          step="0.01"
+          value={volume}
+          onChange={handleVolumeChange}
+        />
+        <span>{Math.round(volume * 100)}%</span> {/* Wyświetl procent głośności */}
       </div>
     </div>
   );

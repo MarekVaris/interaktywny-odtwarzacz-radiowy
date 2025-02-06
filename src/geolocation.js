@@ -19,11 +19,12 @@ const Geolocation = () => {
   }, []);
 
   return (
-    <div>
+    <div className="geolocation">
       <p>Twoja lokalizacja: {location ? `${location.latitude}, ${location.longitude}` : "Brak dostępu"}</p>
       <p>Informacje o przeglądarce: {browserInfo}</p>
     </div>
   );
+  
 };
 
 export default Geolocation;
